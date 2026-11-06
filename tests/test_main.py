@@ -3,9 +3,9 @@ import pytest
 def request_payload( equipment_id = 2, student_id = "ST-1234" , description = "This is a request for a new computer", priority = 3):
 
     return{
-        "equipment_id": equipID,
-        "student_id": sid,
-        "description": desc,
+        "equipment_id": equipment_id,
+        "student_id": student_id,
+        "description": description,
         "priority": priority,
     }
         
@@ -21,6 +21,11 @@ def test_create_and_retrieve_200(client):
     data = getResp.json
     assert len(data) == 1
     assert data["description"] == "This is a request for a new computer"
+
+@pytest.mark.parametrize("bad", ["St1234", "st-13233", "ST123414"],)
+def test_bad_id(client):
+    response = client.post("/api/request", json=request_payload(student_id=bad))
+    assert response.status_code == 422
 
 
 def test_get_all(client):
