@@ -10,7 +10,6 @@ class RequestCreate(BaseModel):
     student_id: StudentIDStr
     description: DescriptionStr
     priority: int = Field(gt=0, lt=6)
-    status: str = Field("OPEN")
 
 class RequestRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)

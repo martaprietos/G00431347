@@ -1,23 +1,26 @@
 import pytest
 
-def request_payload( equipment_id = 2, student_id = "ST-1234" , description = "This is a request for a new computer", priority = 3, status = "OPEN"):
+def request_payload( equipment_id = 2, student_id = "ST-1234" , description = "This is a request for a new computer", priority = 3):
 
     return{
         "equipment_id": equipID,
         "student_id": sid,
         "description": desc,
         "priority": priority,
-        "status": stat
     }
         
 def test_create_and_retrieve_200(client):
-    client.post("/api/request").json()
-    response = client.get("/api/request")
-    assert response.status_code == 200
+    resp = client.post("/api/request", json=request_payload())
+    assert resp.status_code == 201
+    data = resp.json()
+    assert data["id"] == 1
+    assert data["description"] == "This is a request for a new computer"
 
-    data = response.json
+    getResp = client.get("/api/request")
+    assert getResp.status_code == 201
+    data = getResp.json
     assert len(data) == 1
-    assert data[0]["equipment_id"] == 2
+    assert data["description"] == "This is a request for a new computer"
 
 @pytest.mark.parametrize("bad", ["St1234", "st-13233", "ST123414"],)
 def test_bad_id(client):
