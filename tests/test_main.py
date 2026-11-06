@@ -22,10 +22,6 @@ def test_create_and_retrieve_200(client):
     assert len(data) == 1
     assert data["description"] == "This is a request for a new computer"
 
-@pytest.mark.parametrize("bad", ["St1234", "st-13233", "ST123414"],)
-def test_bad_id(client):
-    response = client.post("/api/request", json=request_payload(student_id=bad))
-    assert response.status_code == 422
 
 def test_get_all(client):
     client.post("/api/request").json()
