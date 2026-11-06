@@ -5,7 +5,7 @@ class Base(DeclarativeBase):
     pass
 
 class RequestDB(Base):
-    __tablename__ ="requests"
+    __tablename__ ="request"
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     equipment_id: Mapped[int] =  mapped_column(Integer)
     student_id: Mapped[str] = mapped_column(String(9), unique= True, nullable=False)

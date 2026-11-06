@@ -41,7 +41,7 @@ def get_requests(db: Session = Depends(get_db)):
 
 @app.get(
     "/api/request/{equipment_id}",
-    response_model=RequestDB,
+    response_model=RequestRead,
 )
 def get_request(equipment_id: int, db: Session = Depends(get_db)):
     db_request = db.get(RequestDB, equipment_id)

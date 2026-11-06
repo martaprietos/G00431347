@@ -11,8 +11,7 @@ def request_payload( equipment_id = 2, student_id = "ST-1234" , description = "T
     }
         
 def test_create_and_retrieve_200(client):
-    created = client.post("/api/request", json=request_payload)
-    req_id = created["id"]
+    client.post("/api/request").json()
     response = client.get("/api/request")
     assert response.status_code == 200
 
@@ -24,3 +23,10 @@ def test_create_and_retrieve_200(client):
 def test_bad_id(client):
     response = client.post("/api/request", json=request_payload)
     assert response.status_code == 422
+
+def test_get_all(client):
+    client.post("/api/request").json()
+    response = client.get("/api/request/{equipment_id}")
+    assert response.status_code == 200
+
+    assert response.json()["student_id"] == "ST-1234"
